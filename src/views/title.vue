@@ -1,0 +1,19 @@
+<template>
+  <div>
+    这里是商品标题
+  </div>
+</template>
+
+<style>
+
+</style>
+
+<script>
+  export default {
+    data() {
+      return {
+        msg: 'hello vue'
+      }
+    }
+  }
+</script>
