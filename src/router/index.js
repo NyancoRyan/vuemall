@@ -1,28 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import goodslist from '@/views/goodslist'
-import title from '@/views/title'
-import image from '@/views/image'
-import Cart from '@/views/Cart'
+import Goodslist from '../views/GoodsList1.vue'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
-  // mode:'history',
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'goodslist',
-      components: {
-        default: goodslist,
-        title: title,
-        img: image
-      }
-    }, {
-      path: '/cart/:cartId',
-
-      name: 'cart',
-      component: Cart
+      name: 'Goodslist',
+      component: Goodslist
     }
 
   ]
