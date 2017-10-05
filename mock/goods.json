@@ -1,0 +1,24 @@
+{
+    "status":"0",
+    "msg":"",
+    "result":[
+        {
+            "productId":"100001",
+            "productName":"吔屎啦",
+            "productPrice":"299",
+            "productImg":"1.jpg"
+        },
+        {
+            "productId":"100001",
+            "productName":"大黄的小米6",
+            "productPrice":"2499",
+            "productImg":"2.jpg"
+        },
+        {
+            "productId":"100001",
+            "productName":"大黄智障",
+            "productPrice":"499",
+            "productImg":"3.jpg"
+        }
+    ]
+}
