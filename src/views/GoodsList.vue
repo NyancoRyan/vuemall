@@ -17,26 +17,22 @@
               <use xlink:href="#icon-arrow-short"></use>
             </svg>
           </a>
-          <a href="javascript:void(0)" class="filterby stopPop">Filter by</a>
+          <a href="javascript:void(0)" class="filterby stopPop" @click="showFilterPop">Filter by</a>
         </div>
         <div class="accessory-result">
           <!-- filter -->
-          <div class="filter stopPop" id="filter">
+          <div class="filter stopPop" id="filter" v-bind:class="{'filterby-show':filterBy}">
             <dl class="filter-price">
               <dt>Price:</dt>
-              <dd><a href="javascript:void(0)">All</a></dd>
+
               <dd>
-                <a href="javascript:void(0)">0 - 100</a>
+                <a href="javascript:void(0)" v-bind:class="{'cur':priceChecked=='all'}" @click="priceChecked='all'">All </a>
               </dd>
-              <dd>
-                <a href="javascript:void(0)">100 - 500</a>
+              <dd v-for="(price,index) in priceFilter"  >
+                <a href="javascript:void(0)" v-bind:class="{'cur':priceChecked==index}" @click="setPriceFilter(index)">
+                  {{price.startPrice}} - {{price.endPrice}}</a>
               </dd>
-              <dd>
-                <a href="javascript:void(0)">500 - 1000</a>
-              </dd>
-              <dd>
-                <a href="javascript:void(0)">1000 - 2000</a>
-              </dd>
+<!--v-bind:class="{'cur':priceChecked(index)}" -->
             </dl>
           </div>
 
@@ -46,7 +42,7 @@
               <ul>
                 <li v-for="(item,index) in goodsList">
                   <div class="pic">
-                    <a href="#"><img v-bind:src="'/static/'+item.productImg" alt=""></a>
+                    <a href="#"><img v-lazy="'/static/'+item.productImg" alt=""></a>
                   </div>
                   <div class="main">
                     <div class="name">{{item.productName}}</div>
@@ -59,10 +55,12 @@
               </ul>
             </div>
           </div>
+
         </div>
       </div>
     </div>
-    
+    <div class="md-overlay" v-show="overLayFlag" @click="closePop"></div>
+
     <nav-footer></nav-footer>
 
   </div>
@@ -70,37 +68,71 @@
 
 <script>
 
-  import './../assets/css/base.css'
-  import './../assets/css/product.css'
-  import './../assets/css/login.css'
+import './../assets/css/base.css'
+import './../assets/css/product.css'
+import './../assets/css/login.css'
+import './../assets/css/checkout.css'
 
-  import NavHeader from './../components/NavHeader.vue'
-  import NavFooter from './../components/NavFooter.vue'
-  import NavBread from './../components/NavBread.vue'
-  
-  import axios from 'axios'
+import NavHeader from './../components/NavHeader.vue'
+import NavFooter from './../components/NavFooter.vue'
+import NavBread from './../components/NavBread.vue'
 
-  export default {
-    data() {
-      return {
-        goodsList:[]
-      }
-    },
-    components: {
-      NavHeader:NavHeader,
-      NavFooter:NavFooter,
-      NavBread
-    },
-    mounted:function(){
-      this.getGoodsList();
-    },
-    methods:{
-      getGoodsList(){
-        axios.get("/goods").then((result)=>{
-          var res = result.data;
-          this.goodsList = res.result;
-        });
-      }
+import axios from 'axios'
+
+export default {
+  data() {
+    return {
+      goodsList: [],
+      priceFilter: [
+        {
+          startPrice: '0.00',
+          endPrice: '500.00'
+        },
+        {
+          startPrice: '500.00',
+          endPrice: '1000.00'
+        },
+        {
+          startPrice: '1000.00',
+          endPrice: '2000.00'
+        }
+      ],
+      priceChecked:'all',
+      filterBy:false,
+      overLayFlag:false
     }
+  },
+  components: {
+    NavHeader: NavHeader,
+    NavFooter: NavFooter,
+    NavBread
+  },
+  mounted: function() {
+    this.getGoodsList();
+  },
+  methods: {
+    getGoodsList() {
+      axios.get("/goods").then((result) => {
+        var res = result.data;
+        this.goodsList = res.result;
+      });
+    },
+    showFilterPop(){
+      this.filterBy = true;
+      this.overLayFlag = true;
+
+
+    },
+    closePop(){
+      this.filterBy = false;
+      this.overLayFlag = false;
+
+    },
+    setPriceFilter(index){
+      this.priceChecked=index;
+      this.closePop();
+    }
+
   }
+}
 </script>
